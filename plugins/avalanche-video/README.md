@@ -1,4 +1,4 @@
-# Avalanche Video — Claude plugin (v2)
+# Avalanche Video — Claude plugin (v2.2)
 
 All-in-one Avalanche video tool: define the strategy, workshop the script, plan continuity with @elements, build the shotlist, and generate via the Higgsfield MCP — from a minimal brief.
 
@@ -7,8 +7,11 @@ All-in-one Avalanche video tool: define the strategy, workshop the script, plan 
 avalanche-video/
 ├── .claude-plugin/plugin.json      # plugin manifest
 ├── .mcp.json                       # declares the Higgsfield MCP server
-├── skills/make-video/SKILL.md      # the v2 phased pipeline
-├── brand/brand-visual-style.md     # house look: 35mm film / diegetic audio / de-creep
+├── skills/make-video/SKILL.md      # the phased pipeline
+├── commands/
+│   ├── save-script.md              # /avalanche-video:save-script
+│   └── save-summary.md             # /avalanche-video:save-summary
+├── brand/brand-visual-style.md     # 2026 brand guidelines translated for video
 ├── library/
 │   ├── video-types.md              # 6 style registers + model routing
 │   ├── prompt-format.md            # canonical human-reviewable prompt layout
@@ -24,6 +27,7 @@ avalanche-video/
 
 ## The pipeline (what "/make-video" does)
 
+0. **Working folder** — pick where the project lives; creates `<project>/generations/` (all AI outputs), `<project>/project/` (brief, continuity bible, notes, summary), `<project>/script/` (script + exact prompts). Nothing is ever written inside the plugin.
 1. **Intake** — brief enters at any stage: one-line idea, existing strategy/PR hook, existing script, or existing shotlist/style refs.
 2. **Strategy & hook** — workshopped until locked (skipped if provided).
 3. **Script workshop** — the heavy phase: versioned drafts, line-level rounds, locked before anything visual.
@@ -31,7 +35,12 @@ avalanche-video/
 5. **Shotlist** — beats → numbered shots, ~2.5–3s/shot, packed into generations; model + aspect explicitly confirmed.
 6. **Prompts** — one canonical, human-readable block per generation; continuity-linted before review.
 7. **Generate** — prompt diff → cost preflight → explicit OK → one submit (stock presets declined by default).
-8. **Review & wrap** — checked against bible + brand; winners saved as templates.
+8. **Review & wrap** — checked against bible + brand; outputs saved to `generations/`; winners saved as templates.
+
+## Commands
+
+- **/avalanche-video:save-script** — snapshot the current script + exact canonical prompts into `script/` (asks: overwrite or new `-v{n}` iteration).
+- **/avalanche-video:save-summary** — write an auto-generated project summary (status, hook, script synopsis, elements, generation log with credits) to `project/summary.md` (asks: overwrite or new iteration).
 
 ## Install (per editor)
 1. Add this folder (or its marketplace) as a plugin: **Settings › Capabilities › add plugin**.

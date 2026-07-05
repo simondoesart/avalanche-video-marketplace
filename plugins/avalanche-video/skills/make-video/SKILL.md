@@ -17,7 +17,7 @@ An editor gives a minimal brief; this pipeline returns a full video plan, a work
 
 1. **Read the plugin files first**: `brand/brand-visual-style.md`, `library/video-types.md`, `library/prompt-format.md`, `library/global-negatives.md`, `library/prompt-building-blocks.md`, `library/scene-shot-templates.md`, `library/reference-assets.md`, `briefs/_TEMPLATE.md`, `briefs/_CONTINUITY_TEMPLATE.md`. If the normal file tool can't reach them (read-only plugin cache), read via the shell VM path — never skip them.
 2. **Robust intake:** use AskUserQuestion for choices and plain chat for long text. Never rely on rich/custom form widgets; if one fails to render, fall back immediately. Never leave the user staring at a blank form.
-3. **Two artifacts per project**, created from the templates and kept current: `briefs/<slug>.md` (the brief sheet — single source of truth) and `briefs/<slug>-continuity.md` (the bible). Every decision lands in them; any field is editable at any time.
+3. **All project artifacts live in the working folder** (never inside the plugin — installed plugin files are a read-only cache). Set up in Phase 0; keep the brief sheet (`project/brief.md`) and continuity bible (`project/continuity.md`) current there. Every decision lands in them; any field is editable at any time.
 4. **Prompts are derived.** Edits go to the script/shotlist/bible; prompts regenerate from source (see `library/prompt-format.md`).
 5. **Money:** preflight every cost, confirm every submit, one generation per confirmation, never blind-retry. Auto-retry once on transient 401/5xx for `get_cost`/status polls only — never for submits.
 
@@ -26,6 +26,21 @@ An editor gives a minimal brief; this pipeline returns a full video plan, a work
 Element IDs are per-account. On a fresh install: check `list_workspaces`; upload `assets/avalanche-logo.png` (`media_upload` → PUT → `media_confirm`), register via `show_reference_elements` create, record the id in `library/reference-assets.md`.
 
 ---
+
+## Phase 0 — Working folder (before anything else)
+
+1. **Ask where this project should live.** If a folder is already connected to the session, offer it (or a subfolder) as the default; otherwise ask the user to connect one. Never proceed without a writable working location — and never write project files into the plugin.
+2. **Create the project structure** under `<working folder>/<project-slug>/`:
+   - `generations/` — every AI output: downloaded videos, start-frame images, upscales. Name files `G{n}_{slug}_job-{jobid}.{ext}`. When a render exists only in the Higgsfield account, link it AND remind the editor to save it into this folder from the result widget.
+   - `project/` — the project record: `brief.md` (brief sheet: form/intake answers, verbatim brief, all context given for the script), `continuity.md` (the bible), `notes.md` (running freeform notes — append anything the editor flags mid-session), `summary.md` (written by the save-summary command).
+   - `script/` — the writing artifacts: `script-v{n}.md` and `prompts-v{n}.md` (written by the save-script command).
+3. Copy the plugin templates on first need: `briefs/_TEMPLATE.md` → `project/brief.md`, `briefs/_CONTINUITY_TEMPLATE.md` → `project/continuity.md`.
+4. All later phases read/write these paths. "Save" from the editor at any time routes to the matching command:
+
+**Save commands** (also invocable directly as `/avalanche-video:save-script` and `/avalanche-video:save-summary` — see `commands/`):
+- **save-script** → snapshot current script + exact canonical prompts into `script/`. If files exist, ASK first: overwrite this version, or write `script-v{n+1}.md` / `prompts-v{n+1}.md`? Never silently overwrite.
+- **save-summary** → write the project summary to `project/summary.md`. If it exists, ASK: overwrite or `summary-v{n}.md`?
+- Offer save-script when the script locks (end of Phase 3) and when prompts are approved (end of Phase 6); run both in Phase 9.
 
 ## Phase 1 — Intake: meet the brief where it is
 
@@ -36,7 +51,7 @@ Ask what already exists and classify the entry point:
 - **C. Existing script** → capture verbatim, offer one workshop pass against the hook, then Phase 4.
 - **D. Existing shotlist or reference shots/styles** → capture, back-fill script + bible from it (Phases 3–4 compressed), then continue.
 
-Also collect now (one AskUserQuestion batch): aspect ratio (16:9 / 9:16 / 1:1 / 21:9), target length, platform + muted-autoplay?, text plan (none / text-overlay / VO), and whether a style register is already decided — documentary · commercial advertisement · motion-graphic · abstract · snow-nature · avalanche-mg (see `library/video-types.md`) — or whether to suggest one. Create the brief sheet.
+Also collect now (one AskUserQuestion batch): aspect ratio (16:9 / 9:16 / 1:1 / 21:9), target length, platform + muted-autoplay?, text plan (none / text-overlay / VO), and whether a style register is already decided — documentary · commercial advertisement · motion-graphic · abstract · snow-nature · avalanche-mg (see `library/video-types.md`) — or whether to suggest one. Write everything — form answers, the verbatim brief, and any context supplied for the script — into `project/brief.md`.
 
 ## Phase 2 — Strategy & hook (skip if provided)
 
@@ -78,15 +93,15 @@ Workshop, don't dictate: audience → core message → **the hook** (the one lin
 2. `generate_video` with `get_cost: true` → show credits (retry once on transient 401/5xx). Check balance via `show_plans_and_credits` for multi-generation plans.
 3. **Warn before submit:** an in-flight job can't be edited — a late tweak means a deliberate re-run at full cost. Last call for changes.
 4. On explicit go: submit **once**. If Higgsfield interrupts with a stock-preset suggestion on narrative/brand work, decline it without asking: resubmit the same literal generation immediately with `declined_preset_id` = the suggested preset's id (this counts as the same confirmed submit, not a new one). Record job ID + prompt version in the generation log. On an ambiguous error, check `show_generations` before any resubmit.
-5. Google Flow instead of Higgsfield: output the finalized prompt + settings for manual pasting; result goes to `renders/`.
+5. Google Flow instead of Higgsfield: output the finalized prompt + settings for manual pasting; result goes to `generations/`.
 
 ## Phase 8 — Review & iterate
 
-Poll `job_display`. Review against (a) the continuity bible — identity, wardrobe, prop state, element placement, crowd distinctness; (b) the brand file's Do/Don't; (c) the hook — does the shot still serve it? On a miss: change only the failing block/shot at source, re-lint, re-diff, re-preflight. Log findings in the brief sheet.
+Poll `job_display`. Review against (a) the continuity bible — identity, wardrobe, prop state, element placement, crowd distinctness; (b) the brand file's Do/Don't; (c) the hook — does the shot still serve it? On a miss: change only the failing block/shot at source, re-lint, re-diff, re-preflight. Log findings in the brief sheet. **Save the output:** if a downloadable URL is available, save the file into `generations/` (named `G{n}_{slug}_job-{jobid}.{ext}`); otherwise link the render and remind the editor to save it there from the widget.
 
 ## Phase 9 — Wrap
 
-Save winners: append exact prompt + model + job ID as a new template in `library/scene-shot-templates.md`; add project learnings to the bible's extra negatives if they generalize (then promote to `global-negatives.md`); mark the brief sheet done. Renders live in the Higgsfield account — link them.
+Run **save-script** and **save-summary** (ask overwrite vs new iteration as usual). Confirm `generations/` holds every kept output. Save winners: append exact prompt + model + job ID as a new template in `library/scene-shot-templates.md` (note: only editable in the repo, not the installed cache — otherwise log it in `project/notes.md` for the maintainer); add generalizable learnings to `global-negatives.md` the same way; mark the brief sheet done.
 
 ---
 
