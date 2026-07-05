@@ -1,0 +1,16 @@
+{
+  "name": "avalanche-video-marketplace",
+  "owner": { "name": "Ava Labs", "email": "avalabscreative@gmail.com" },
+  "metadata": {
+    "description": "Avalanche brand video tooling for Claude — on-brand generation via Higgsfield.",
+    "version": "2.1.0"
+  },
+  "plugins": [
+    {
+      "name": "avalanche-video",
+      "source": "./plugins/avalanche-video",
+      "description": "All-in-one Avalanche video pipeline: strategy + hook, heavy script workshopping, @element continuity bible, shotlist, canonical human-reviewable prompts, and guarded Higgsfield generation.",
+      "version": "2.1.0"
+    }
+  ]
+}
