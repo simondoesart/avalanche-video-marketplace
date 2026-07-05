@@ -13,6 +13,8 @@ description: >
 
 An editor gives a minimal brief; this pipeline returns a full video plan, a workshopped script, a continuity-safe shotlist, human-readable prompts, and (on approval) Higgsfield generations. **Writing comes first. No shotlist, no elements, no prompts until the script is locked.**
 
+**The very first question of every run — before intake, before anything — is Phase 0: where does this project live?** Never skip it, even for "quick" runs.
+
 ## Ground rules (every run)
 
 1. **Read the plugin files first**: `brand/brand-visual-style.md`, `library/video-types.md`, `library/prompt-format.md`, `library/global-negatives.md`, `library/prompt-building-blocks.md`, `library/scene-shot-templates.md`, `library/reference-assets.md`, `briefs/_TEMPLATE.md`, `briefs/_CONTINUITY_TEMPLATE.md`. If the normal file tool can't reach them (read-only plugin cache), read via the shell VM path — never skip them.
@@ -68,17 +70,19 @@ Workshop, don't dictate: audience → core message → **the hook** (the one lin
 
 ## Phase 4 — Continuity bible + @element manager (before ANY shotlist)
 
-1. **Extract** every character, prop, and location from the locked script; propose @names (lowercase-hyphen, unique — the @name must equal the Higgsfield element name, since the backend rewrites `<<<id>>>` to `@element_name`).
-2. **Sync with the account:** run `show_reference_elements` (and `show_characters` if Soul identities exist). Print a table: @name candidate → any existing element with the same/similar name, id, created date. **Naming:** if a proposed @name collides with an old element, pick a fresh unique name (e.g. `@vendor-bkk`) — never let a new project inherit an old element by name accident.
-3. **Default: create NEW elements for every project.** Existing library elements are reused **only when the editor explicitly specifies one** (e.g. `@avalanche-logo`, or a recurring campaign character named by the editor). Confirm the working set as: which @names get new imagery (all, by default) and which, if any, the editor has explicitly pointed at an existing element.
+**Map first, Higgsfield second.** The complete element plan is built and confirmed on paper before a single MCP call.
+
+1. **Element-needs map (no Higgsfield yet).** Extract every character, prop, and location from the locked script and present one table for confirmation: @name (lowercase-hyphen, unique — must equal the Higgsfield element name, since the backend rewrites `<<<id>>>` to `@element_name`) · type · one-line description · which beats/shots it appears in · imagery source (upload / generate / editor-specified existing element). Include what each element must nail (identity, wardrobe, exact device look). **The editor confirms this map before step 2.**
+2. **Only now touch Higgsfield — sync the account:** run `show_reference_elements` (and `show_characters` if Soul identities exist). Compare against the confirmed map: any same/similar-name collisions with old elements → pick a fresh unique name (e.g. `@vendor-bkk`); never let a new project inherit an old element by accident.
+3. **Default: create NEW elements for every project.** Existing library elements are reused **only when the editor explicitly specified one in the map** (e.g. `@avalanche-logo`, a recurring campaign character).
 4. **New imagery:** chat-attached files are unreadable by the remote MCP — always route uploads through `media_upload_widget`. Or generate references (`generate_image` → `nano_banana_2` / `seedream_v4_5`), confirm the still with the editor, then register. Record every new @name → id in the bible AND `library/reference-assets.md`.
 5. **Write the bible** from `_CONTINUITY_TEMPLATE.md`: locked wardrobe phrasing per character, prop-state timeline (luggage logic!), locations/geography, the **element-usage map** (each element → exact shots allowed, e.g. "@kiosk-scanner: kiosk shots only"), distinct background-character descriptions for any crowd, and project extra negatives. Editor confirms the bible before Phase 5.
 
 ## Phase 5 — Shotlist
 
 1. Convert locked beats into numbered shots (S1…): beat ref, @elements used, one-line action, camera, est. seconds.
-2. **Duration heuristic:** ~2.5–3s per shot. Warn on over-packing (5 shots in 10s reads rushed — recommend 12s or fewer shots).
-3. **Pack shots into generations** per model capability (e.g. `seedance_2_0`: 3–4 shots per 10–12s multi-shot generation, identity held by character elements). Show the packing plan (G1 = S1–S4, …).
+2. **Generation length first, shot math second.** Default: **8–10s per generation on `seedance_2_0`** (typically 2–3 shots), unless the editor asks otherwise. Don't obsess over per-shot seconds — ~2.5–3s/shot is only a sanity check to catch over-packing (5 shots in 10s reads rushed), not a target to engineer.
+3. **Pack shots into 8–10s generations** (identity held by character elements). Show the packing plan (G1 = S1–S3, …).
 4. **Model + aspect confirmation (explicit):** verify current models with `models_explore`, recommend per the style register's routing (`library/video-types.md`), present 2–3 options with credit implications, and have the editor confirm **both model and aspect ratio** — never assume. Log in the brief sheet.
 5. Editor approves the shotlist → Phase 6.
 
@@ -91,7 +95,7 @@ Workshop, don't dictate: audience → core message → **the hook** (the one lin
 
 ## Phase 7 — Preflight & generate (one at a time)
 
-1. **Prompt diff:** if this prompt changed since last shown, display the diff before costing.
+1. **Show the exact final prompt, verbatim, in full paragraph form** — the complete text that will be submitted, in the canonical layout with paragraph breaks — even if it was shown before. Plus a diff if anything changed since last shown. **Nothing is ever submitted that the editor hasn't seen verbatim in its final form.**
 2. `generate_video` with `get_cost: true` → show credits (retry once on transient 401/5xx). Check balance via `show_plans_and_credits` for multi-generation plans.
 3. **Warn before submit:** an in-flight job can't be edited — a late tweak means a deliberate re-run at full cost. Last call for changes.
 4. On explicit go: submit **once**. If Higgsfield interrupts with a stock-preset suggestion on narrative/brand work, decline it without asking: resubmit the same literal generation immediately with `declined_preset_id` = the suggested preset's id (this counts as the same confirmed submit, not a new one). Record job ID + prompt version in the generation log. On an ambiguous error, check `show_generations` before any resubmit.

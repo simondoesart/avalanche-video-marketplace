@@ -60,3 +60,5 @@ FORMAT
 ## Review etiquette
 
 Present the review view, then ask for line-level edits ("tighten shot 2", "wardrobe wrong in shot 3"). Apply edits to the **source artifact** (script, shotlist, or bible), regenerate the prompt from source, and show a short diff of what changed since the last version. Prompts are derived artifacts — never hand-edited in place.
+
+**Before any submit:** show the exact final prompt one more time, verbatim, in full paragraph form. The editor must see the literal text that goes to the model — never a summary, never "same as before."

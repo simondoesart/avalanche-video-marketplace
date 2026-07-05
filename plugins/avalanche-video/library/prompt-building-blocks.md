@@ -59,16 +59,16 @@ Modular, reusable phrases for composing shots. Full prompts always use the canon
 | `cgi-reveal` | "polished CGI reveal, mesh-to-beauty finish, turntable clarity" |
 | `photoreal-tech` | "photorealistic, cinematic, warm-tech, confident not cold" |
 
-## Duration heuristic (apply at shotlist time)
+## Generation length (apply at shotlist time)
 
-**~2.5–3s per shot.** 4 shots → 10–12s; 5 shots need 13–15s. Warn on over-packing — 5 shots in 10s reads rushed. Verify against the model's allowed range before confirming.
+**Default: 8–10s per generation on `seedance_2_0`** — typically 2–3 shots. Duration drives the plan; shot seconds are only a sanity check (~2.5–3s/shot) to catch over-packing (5 shots in 10s reads rushed). Don't engineer per-shot timings — pack naturally into 8–10s and verify against the model's allowed range.
 
 ## Aspect + duration presets
 
-- Hero / site: `16:9`, 6–12s
+- Multi-shot narrative generation (default): `16:9`, **8–10s** (2–3 shots)
+- Hero / site single-idea: `16:9`, 6–10s
 - Social vertical: `9:16`, 4–6s
 - Feed tile: `1:1`, 4s
-- Multi-shot narrative generation: `16:9`, 10–15s (3–4 shots packed)
 
 ---
 
