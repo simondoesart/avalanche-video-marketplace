@@ -9,8 +9,9 @@ avalanche-video/
 ├── .mcp.json                       # declares the Higgsfield MCP server
 ├── skills/make-video/SKILL.md      # the phased pipeline
 ├── commands/
-│   ├── save-script.md              # /avalanche-video:save-script
-│   └── save-summary.md             # /avalanche-video:save-summary
+│   ├── script.md                   # /script — save script + prompts
+│   ├── summary.md                  # /summary — save project summary
+│   └── commands.md                 # /commands — list what's available
 ├── brand/brand-visual-style.md     # 2026 brand guidelines translated for video
 ├── library/
 │   ├── video-types.md              # 6 style registers + model routing
@@ -39,8 +40,9 @@ avalanche-video/
 
 ## Commands
 
-- **/avalanche-video:save-script** — snapshot the current script + exact canonical prompts into `script/` (asks: overwrite or new `-v{n}` iteration).
-- **/avalanche-video:save-summary** — write an auto-generated project summary (status, hook, script synopsis, elements, generation log with credits) to `project/summary.md` (asks: overwrite or new iteration).
+- **/script** (`/avalanche-video:script`) — snapshot the current script + exact canonical prompts into `script/` (asks: overwrite or new `-v{n}` iteration).
+- **/summary** (`/avalanche-video:summary`) — write an auto-generated project summary (status, hook, script synopsis, elements, generation log with credits) to `project/summary.md` (asks: overwrite or new iteration).
+- **/commands** (`/avalanche-video:commands`) — list every command and skill in this plugin.
 
 ## Install (per editor)
 1. Add this folder (or its marketplace) as a plugin: **Settings › Capabilities › add plugin**.

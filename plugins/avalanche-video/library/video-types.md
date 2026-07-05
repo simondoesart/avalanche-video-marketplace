@@ -1,20 +1,22 @@
 # Video Types — Style Registers & Reference Routing
 
-The `/make-video` skill uses this file to know, for each video type: the look, which references to pull, which Higgsfield model to route to, and which building blocks to lean on. All types obey `brand/brand-visual-style.md` (v3 — the June 2026 guidelines: Momentum + Elemental narratives, `#E6212F` red, `#1F1F1F` dark base, cool blue-grey snow).
+The `/make-video` skill uses this file to know, for each video type: the look, which references to pull, which Higgsfield model to route to, and which building blocks to lean on. All types obey `brand/brand-visual-style.md` (v3 — the June 2026 guidelines; Avalanche Red is `#E6212F`, never the retired `#E84142`).
+
+**The style is chosen here, during the flow — there is no default.** Nothing below is quoted or assumed until the editor picks (or approves a recommendation for) a register in Phase 3.
 
 **Style-register mapping** (editor language → type → guideline imagery register):
 
 | Editor says | Type | Guideline register |
 |-------------|------|--------------------|
-| "documentary style" / narrative / human story | 1. Human-centric | Avalanche IRL (hero) or intimate documentary |
+| "documentary style" / narrative / human story | 1. Human-centric | Intimate documentary · Avalanche IRL (opt-in) |
 | "commercial advertisement style" / cinematic ad / VO b-roll | 2. B-roll | Architectural sublime · Motion blur · Juxtaposition |
 | "motion graphic style" / keyable asset / logo sting | 4 or 6 | Digital blocks · logo/mark kinetics |
 | abstract / tech texture | 3. Abstract | Digital blocks · motion blur abstraction |
 | alpine / snow / nature | 5. Snow & nature | Natural elements |
 
-When the editor hasn't chosen, recommend one with a one-line rationale based on the hook — default toward 1 or 2 for narrative briefs. Types 3, 4, and 6 are the **graphic register** (grid-locked digital blocks, `#E6212F` on `#1F1F1F`, engineered motion) — never mix its vocabulary into filmed types 1, 2, 5.
+When the editor hasn't chosen, recommend one with a one-line rationale based on the hook — as an option to approve, never a fait accompli. Types 3, 4, and 6 are the **graphic register** (grid-locked digital blocks, `#E6212F` on `#1F1F1F`, engineered motion) — never mix its vocabulary into filmed types 1, 2, 5.
 
-**Avalanche IRL — the signature hero register (use inside type 1 or 2):** Avalanche snow taking over a familiar business location (office, trading floor, coffee station) while people carry on completely unfazed. Cool blue-grey grade, 35mm film base, diegetic sound of wind/ice/snow under office ambience.
+**Avalanche IRL — a specific opt-in look (usable inside type 1 or 2, only when explicitly chosen):** Avalanche snow taking over a familiar business location (office, trading floor, coffee station) while people carry on completely unfazed. Cool blue-grey grade, 35mm film base, diegetic sound of wind/ice/snow under office ambience. The cool blue-grey snow treatment likewise belongs to snow work and Avalanche VFX assets (green/red screen, type 6) — don't apply it outside those contexts.
 
 **Reusable look string (Avalanche IRL):**
 > Shot on 35mm film, cool blue-grey grade, snow with a cool bluish cast never pure white, gentle film grain, soft halation, documentary realism, photographed not rendered, no oversaturation, people calm and completely unfazed by the snow.

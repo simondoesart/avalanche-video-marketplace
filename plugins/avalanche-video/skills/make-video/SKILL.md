@@ -37,10 +37,10 @@ Element IDs are per-account. On a fresh install: check `list_workspaces`; upload
 3. Copy the plugin templates on first need: `briefs/_TEMPLATE.md` → `project/brief.md`, `briefs/_CONTINUITY_TEMPLATE.md` → `project/continuity.md`.
 4. All later phases read/write these paths. "Save" from the editor at any time routes to the matching command:
 
-**Save commands** (also invocable directly as `/avalanche-video:save-script` and `/avalanche-video:save-summary` — see `commands/`):
-- **save-script** → snapshot current script + exact canonical prompts into `script/`. If files exist, ASK first: overwrite this version, or write `script-v{n+1}.md` / `prompts-v{n+1}.md`? Never silently overwrite.
-- **save-summary** → write the project summary to `project/summary.md`. If it exists, ASK: overwrite or `summary-v{n}.md`?
-- Offer save-script when the script locks (end of Phase 3) and when prompts are approved (end of Phase 6); run both in Phase 9.
+**Save commands** (invocable as `/avalanche-video:script` and `/avalanche-video:summary`, or the short forms `/script` / `/summary`; `/avalanche-video:commands` lists everything — see `commands/`):
+- **script** → snapshot current script + exact canonical prompts into `script/`. If files exist, ASK first: overwrite this version, or write `script-v{n+1}.md` / `prompts-v{n+1}.md`? Never silently overwrite.
+- **summary** → write the project summary to `project/summary.md`. If it exists, ASK: overwrite or `summary-v{n}.md`?
+- Offer /script when the script locks (end of Phase 3) and when prompts are approved (end of Phase 6); run both in Phase 9.
 
 ## Phase 1 — Intake: meet the brief where it is
 
@@ -52,6 +52,8 @@ Ask what already exists and classify the entry point:
 - **D. Existing shotlist or reference shots/styles** → capture, back-fill script + bible from it (Phases 3–4 compressed), then continue.
 
 Also collect now (one AskUserQuestion batch): aspect ratio (16:9 / 9:16 / 1:1 / 21:9), target length, platform + muted-autoplay?, text plan (none / text-overlay / VO), and whether a style register is already decided — documentary · commercial advertisement · motion-graphic · abstract · snow-nature · avalanche-mg (see `library/video-types.md`) — or whether to suggest one. Write everything — form answers, the verbatim brief, and any context supplied for the script — into `project/brief.md`.
+
+**No default look at intake.** Do not present, summarize, or assume any visual style ("house look", Avalanche IRL, blue-grey snow, red accents) before the style register is chosen in Phase 3. Register-specific traits are quoted only after the editor picks that register: cool blue-grey snow belongs to snow/VFX-asset work; "Avalanche IRL" is one specific opt-in look, not the brand default.
 
 ## Phase 2 — Strategy & hook (skip if provided)
 
@@ -112,6 +114,7 @@ Brief sheet + bible = source of truth. "Change X" → edit the source artifact, 
 ## Guardrails
 
 - Script locked before shotlist; bible confirmed before prompts; lint before review; diff + cost + explicit OK before submit.
-- Style descriptor and AVOID list ship verbatim — paraphrasing is drift.
+- Style descriptor and AVOID list ship verbatim — paraphrasing is drift. No look asserted before the register is chosen.
+- Avalanche Red is **`#E6212F`** — `#E84142` is the retired pre-2026 red and must never appear in any prompt or asset.
 - Decline off-brand stock presets automatically on narrative work (resubmit with `declined_preset_id`).
 - Always report: job ID, prompt version, credits spent, which template/blocks were used.

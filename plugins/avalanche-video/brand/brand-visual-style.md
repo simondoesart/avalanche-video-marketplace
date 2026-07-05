@@ -17,13 +17,15 @@ Two visual narratives drive everything:
 
 Three words to hold on every shot: **Momentum. Elemental. Real.**
 
+> **There is no default look.** This file is a menu, not a preset: the visual style — register, grade, palette emphasis — is decided *during* the make-video flow (Phase 3), with the editor. Do not assert or summarize a "house look" at intake, and never quote a register's traits (blue-grey snow, Avalanche IRL, red accents) before that register has been chosen.
+
 ## 2. Capture DNA (locked — how everything is shot)
 
-All filmed/photographic material keeps the film base, whatever the register:
+The only truly global rule. All filmed/photographic material keeps the film base, whatever the register:
 
 > Shot on 35mm film, gentle film grain, soft halation, documentary realism, photographed not rendered, no oversaturation.
 
-**Grade by register** (see §6): cool blue-grey cast for Avalanche IRL / snow / institutional work (the brand's signature temperature); naturalistic warmth is reserved for intimate human-documentary beats. Never glossy, never plasticky CGI.
+**Grade belongs to the chosen register** (see §6) — e.g. cool blue-grey for snow/VFX and Avalanche IRL work, naturalistic warmth for intimate human-documentary. Never glossy, never plasticky CGI.
 
 ## 3. Audio (locked)
 
@@ -51,6 +53,8 @@ Dark mode is the default: background **#1F1F1F**. Light mode uses **#EBF0FA**.
 | Red dark ramp | `#B20F2A` · `#820419` · `#3D000A` |
 | Red light ramp | `#FF394A` · `#FF7F7B` · `#FEAFAC` |
 
+> ⚠️ **`#E84142` is the retired pre-2026 brand red.** It must never appear in a prompt, palette, or generated asset. If it surfaces anywhere (old templates, cached elements, muscle memory), replace with `#E6212F`.
+
 **Neutrals & darks:**
 
 | Role | Hex |
@@ -72,7 +76,7 @@ Dark mode is the default: background **#1F1F1F**. Light mode uses **#EBF0FA**.
 
 ## 6. Imagery registers (from the guidelines — pick one per shot/sequence)
 
-1. **Avalanche IRL** (the loudest, hero register) — Avalanche snow taking over familiar business locations: offices, trading floors, filing cabinets, coffee stations. People completely unfazed by the cold and snow. Conveys momentum and hidden power in real-world systems. Cool blue-grey grade.
+1. **Avalanche IRL** — a very specific, deliberate look: Avalanche snow taking over familiar business locations (offices, trading floors, filing cabinets, coffee stations), people completely unfazed. Conveys momentum and hidden power in real-world systems. Cool blue-grey grade. **Reference it only when this register is explicitly chosen for the video — never as ambient default context.**
 2. **Natural elements** — closeups and establishing shots of snow, ice, frost, wind, drifts, avalanches, cliffs, rocks, mountains. Juxtaposes the natural and tech worlds.
 3. **Motion blur** — long-exposure energy on cities, crowds, hands, infrastructure; momentum made visible. In-camera or post.
 4. **Juxtaposition** — diptychs pairing finance/technology imagery with powerful avalanche/snow imagery (payment terminal | snow blast; NYSE facade | powder wave).
@@ -107,9 +111,11 @@ Default in generation: **no on-frame text** (it's in the avoid list — AI type 
 
 ## 11. Do / Don't cheat-sheet
 
-**Do:** 35mm film texture · cool blue-grey snow · people unfazed by the avalanche · horizontal momentum · motion blur energy · juxtaposition diptychs · institutional architecture · one decisive red `#E6212F` moment · diegetic wind/ice/avalanche sound · photographed not rendered.
+**Do (always):** 35mm film texture · photographed not rendered · diegetic sound only · movement motivated by story · red used as `#E6212F` when red appears at all.
 
-**Don't:** facial mesh/HUD/reticles/eye-macro (de-creep) · pure-white or warm-toned snow · on-screen text or UI in generation · oversaturation · glossy plasticky CGI · garbled signage · third-party logos · music/score unless briefed · rainbow gradients · crypto clichés · crowd sameness.
+**Do (when the chosen register calls for it):** cool blue-grey snow (snow/VFX/IRL registers — snow never pure white) · people unfazed by the avalanche (IRL only) · horizontal momentum · motion blur energy · juxtaposition diptychs · institutional architecture.
+
+**Don't:** facial mesh/HUD/reticles/eye-macro (de-creep) · `#E84142` (retired red) · on-screen text or UI in generation · oversaturation · glossy plasticky CGI · garbled signage · third-party logos · music/score unless briefed · rainbow gradients · crypto clichés · crowd sameness · asserting a look before the register is chosen.
 
 ---
 
