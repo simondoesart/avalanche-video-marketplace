@@ -13,11 +13,17 @@ description: >
 
 An editor gives a minimal brief; this pipeline returns a full video plan, a workshopped script, a continuity-safe shotlist, human-readable prompts, and (on approval) Higgsfield generations. **Writing comes first. No shotlist, no elements, no prompts until the script is locked.**
 
-**The very first question of every run — before intake, before anything — is Phase 0: where does this project live?** Never skip it, even for "quick" runs.
+**On invocation, before anything else, print the operating rundown** — a compact checklist the editor can hold you to, then immediately ask Phase 0's question:
+
+> **How this run works:** ⓪ working folder → ① intake (brief at any stage) → ② strategy & hook (lock) → ③ script workshop (lock — heaviest phase) → ④ element map → reference workshop → register + download → continuity bible (confirm) → ⑤ shotlist, 8–10s generations (approve) → ⑥ canonical prompts + continuity lint (approve) → ⑦ verbatim prompt → cost → explicit OK → one submit → ⑧ review vs bible → ⑨ wrap + save. Style is chosen at ③, never assumed. Nothing generates without the exact prompt shown first. `/script`, `/summary`, `/commands` available any time.
+
+Copy this checklist into `project/brief.md` and tick phases off as they lock — if a phase is about to be skipped, say so and ask.
+
+**The very first question of every run is Phase 0: where does this project live?** Never skip it, even for "quick" runs.
 
 ## Ground rules (every run)
 
-1. **Read the plugin files first**: `brand/brand-visual-style.md`, `library/video-types.md`, `library/prompt-format.md`, `library/global-negatives.md`, `library/prompt-building-blocks.md`, `library/scene-shot-templates.md`, `library/reference-assets.md`, `briefs/_TEMPLATE.md`, `briefs/_CONTINUITY_TEMPLATE.md`. If the normal file tool can't reach them (read-only plugin cache), read via the shell VM path — never skip them.
+1. **Read the plugin files first**: `brand/brand-visual-style.md`, `library/video-types.md`, `library/prompt-format.md`, `library/global-negatives.md`, `library/prompt-building-blocks.md`, `library/reference-capture.md`, `library/scene-shot-templates.md`, `library/reference-assets.md`, `briefs/_TEMPLATE.md`, `briefs/_CONTINUITY_TEMPLATE.md`. If the normal file tool can't reach them (read-only plugin cache), read via the shell VM path — never skip them.
 2. **Robust intake:** use AskUserQuestion for choices and plain chat for long text. Never rely on rich/custom form widgets; if one fails to render, fall back immediately. Never leave the user staring at a blank form.
 3. **All project artifacts live in the working folder** (never inside the plugin — installed plugin files are a read-only cache). Set up in Phase 0; keep the brief sheet (`project/brief.md`) and continuity bible (`project/continuity.md`) current there. Every decision lands in them; any field is editable at any time.
 4. **Prompts are derived.** Edits go to the script/shotlist/bible; prompts regenerate from source (see `library/prompt-format.md`).
@@ -33,7 +39,8 @@ Element IDs are per-account. On a fresh install: check `list_workspaces`; upload
 
 1. **Ask where this project should live.** If a folder is already connected to the session, offer it (or a subfolder) as the default; otherwise ask the user to connect one. Never proceed without a writable working location — and never write project files into the plugin.
 2. **Create the project structure** under `<working folder>/<project-slug>/`:
-   - `generations/` — every AI output: downloaded videos, start-frame images, upscales. Name files `G{n}_{slug}_job-{jobid}.{ext}`. When a render exists only in the Higgsfield account, link it AND remind the editor to save it into this folder from the result widget.
+   - `generations/` — every AI video output: downloaded videos, start-frame images, upscales. Name files `G{n}_{slug}_job-{jobid}.{ext}`. When a render exists only in the Higgsfield account, link it AND remind the editor to save it into this folder from the result widget.
+   - `references/` — locked reference stills for characters/props/locations, auto-downloaded as `@name_ref-v{n}.png` (see `library/reference-capture.md`).
    - `project/` — the project record: `brief.md` (brief sheet: form/intake answers, verbatim brief, all context given for the script), `continuity.md` (the bible), `notes.md` (running freeform notes — append anything the editor flags mid-session), `summary.md` (written by the save-summary command).
    - `script/` — the writing artifacts: `script-v{n}.md` and `prompts-v{n}.md` (written by the save-script command).
 3. Copy the plugin templates on first need: `briefs/_TEMPLATE.md` → `project/brief.md`, `briefs/_CONTINUITY_TEMPLATE.md` → `project/continuity.md`.
@@ -75,10 +82,11 @@ Workshop, don't dictate: audience → core message → **the hook** (the one lin
 1. **Element-needs map (no Higgsfield yet).** Extract every character, prop, and location from the locked script and present one table for confirmation: @name (lowercase-hyphen, unique — must equal the Higgsfield element name, since the backend rewrites `<<<id>>>` to `@element_name`) · type · one-line description · which beats/shots it appears in · imagery source (upload / generate / editor-specified existing element). Include what each element must nail (identity, wardrobe, exact device look). **The editor confirms this map before step 2.**
 2. **Only now touch Higgsfield — sync the account:** run `show_reference_elements` (and `show_characters` if Soul identities exist). Compare against the confirmed map: any same/similar-name collisions with old elements → pick a fresh unique name (e.g. `@vendor-bkk`); never let a new project inherit an old element by accident.
 3. **Default: create NEW elements for every project.** Existing library elements are reused **only when the editor explicitly specified one in the map** (e.g. `@avalanche-logo`, a recurring campaign character).
-4. **New imagery — two paths:**
+4. **New imagery — run the reference workshop (`library/reference-capture.md`):**
    - **Uploads:** chat-attached files are unreadable by the remote MCP — always route through `media_upload_widget`.
-   - **Generated references (DEFAULT for human-story work):** for a human-centric/documentary video, once the script is locked and the element map confirmed, proactively offer to create the reference set in **NanoBanana Pro (`generate_image` → `nano_banana_2`)** — one still per character, prop, and location. Write each reference-image prompt in paragraph form using the bible's locked phrasing (wardrobe verbatim, prop details, location staging) + the chosen register's look string, and **show all prompts for review before generating anything** (image generations cost credits — preflight and confirm like any spend). Review the stills with the editor, iterate on misses, save keepers to `generations/`, then register the approved stills as reference elements.
-   Record every new @name → id in the bible AND `library/reference-assets.md`.
+   - **Generated references (DEFAULT for human-story work):** structured element interview → paragraph-form reference prompts (35mm capture DNA + anti-stock negatives, shown for approval before any spend) → generate in NanoBanana Pro (`nano_banana_2`) → review/iterate → on lock, **automatically**: download each still to `references/`, register it as a Higgsfield element (name = @name), record the id.
+   - **Attachment routing is model-aware** (reference-capture.md §5): `seedance_2_0`/`kling3_0`/`cinematic_studio_3_0` embed `<<<element_id>>>`; start-frame-only models (`veo3_1` etc.) anchor each generation with the strongest reference still as `start_image`/`end_image`.
+   Phase 6 does not start until every mapped element is locked, registered, and downloaded.
 5. **Write the bible** from `_CONTINUITY_TEMPLATE.md`: locked wardrobe phrasing per character, prop-state timeline (luggage logic!), locations/geography, the **element-usage map** (each element → exact shots allowed, e.g. "@kiosk-scanner: kiosk shots only"), distinct background-character descriptions for any crowd, and project extra negatives. Editor confirms the bible before Phase 5.
 
 ## Phase 5 — Shotlist

@@ -15,6 +15,7 @@ avalanche-video/
 ├── brand/brand-visual-style.md     # 2026 brand guidelines translated for video
 ├── library/
 │   ├── video-types.md              # 6 style registers + model routing
+│   ├── reference-capture.md        # reference workshop: interview → 35mm stills → register + download
 │   ├── prompt-format.md            # canonical human-reviewable prompt layout
 │   ├── global-negatives.md         # baked-in tiered AVOID lists
 │   ├── prompt-building-blocks.md   # shot phrases + duration heuristic + routing
@@ -28,7 +29,7 @@ avalanche-video/
 
 ## The pipeline (what "/make-video" does)
 
-0. **Working folder** — pick where the project lives; creates `<project>/generations/` (all AI outputs), `<project>/project/` (brief, continuity bible, notes, summary), `<project>/script/` (script + exact prompts). Nothing is ever written inside the plugin.
+0. **Working folder** — pick where the project lives; creates `<project>/generations/` (AI video outputs), `<project>/references/` (locked reference stills, auto-downloaded), `<project>/project/` (brief, continuity bible, notes, summary), `<project>/script/` (script + exact prompts). Nothing is ever written inside the plugin. Every run opens with the operating rundown so no phase gets skipped.
 1. **Intake** — brief enters at any stage: one-line idea, existing strategy/PR hook, existing script, or existing shotlist/style refs.
 2. **Strategy & hook** — workshopped until locked (skipped if provided).
 3. **Script workshop** — the heavy phase: versioned drafts, line-level rounds, locked before anything visual.
