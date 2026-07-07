@@ -96,15 +96,14 @@ Diegetic only, no music, no score. Street ambience, charcoal crackle, wok
 sizzle, crowd murmur. No discernible dialogue.
 
 AVOID
-no garbled or legible signage text, no readable posters or screens, no
-third-party logos or brand marks, no on-screen text or UI or captions, no
-watermark, no oversaturation, no glossy plasticky CGI, no CGI glow on real
-devices, no facial mesh or wireframe on the face, no cyan or green tech-HUD
-overlays, no extreme eye close-ups, no dot-grid scan animations, no red
-reticles or target-locks on the face, no cold clinical lab settings, no
-surveillance or "system watching you" POV, no music, no score, no slow-motion
-glamour, no forced smiles, no uncanny faces, each background character
-described distinctly, no cash visible anywhere, no QR codes on screen.
+no on-screen text or UI, no watermark, no oversaturation, no glossy CGI,
+no over-sharpened digital look, no halo or edge outline around people, no
+overacting or stiff posing, no cloned background people, no facial mesh or
+scan overlays on faces, no garbled signage, no cash visible anywhere, no QR
+codes on screen.
+
+(core eight + tech-near-face and signage conditionals + two project extras
+= 12 items, at the cap — see library/global-negatives.md)
 
 FORMAT
 16:9 · 12s · seedance_2_0 (std, 1080p) · 4 shots · audio on

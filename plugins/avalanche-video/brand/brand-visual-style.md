@@ -33,13 +33,13 @@ The only truly global rule. All filmed/photographic material keeps the film base
 
 The brand embraces **audio of wind, ice, an avalanche — visual and audio ASMR.** Room tone, weather, machines, breath. Score only when a brief explicitly asks. No lip-synced or discernible dialogue unless intended. Assume muted-autoplay: the story must land silent.
 
-## 4. The avoid list (locked — the "de-creep" rulebook)
+## 4. The avoid list (short by design)
 
-Ships verbatim in every prompt's **AVOID** section (full tiers in `library/global-negatives.md`):
+Every prompt carries **one short AVOID line** — the core eight, verbatim, hard-capped at ~12 items with scene-relevant conditionals (assembly rules in `library/global-negatives.md`):
 
-> Avoid: any facial mesh or wireframe on the face, cyan or green tech-HUD overlays, extreme eye close-ups, dot-grid scan animations, red reticles or target-locks on the face, cold clinical lab settings, surveillance or "system watching you" POV, on-screen text or UI, oversaturation, glossy plasticky CGI.
+> Avoid: no on-screen text or UI, no watermark, no oversaturation, no glossy CGI, no over-sharpened digital look, no halo or edge outline around people, no overacting or stiff posing, no cloned background people.
 
-Technology in Avalanche stories is powerful but human-scaled and matter-of-fact — never surveillance-coded, never a system watching a person.
+**The de-creep principle still stands** — technology in Avalanche stories is human-scaled and matter-of-fact, never surveillance-coded, never a system watching a person — but it ships as a *conditional* ("no facial mesh or scan overlays, no reticles or HUD on faces") only when a scene puts tech near a face. Long negative chains dilute attention; carry intent in the positive prompt instead.
 
 ## 5. Color (2026 brand palette)
 

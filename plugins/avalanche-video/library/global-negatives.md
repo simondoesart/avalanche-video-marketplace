@@ -1,29 +1,25 @@
-# Global Negatives — the baked-in AVOID list
+# Global Negatives — one short AVOID line
 
-Every prompt's **AVOID** section is assembled from these tiers, in order. Tiers 1–2 are always on. Never make the editor re-type any of this.
+A long negative chain dilutes the model's attention and starts describing the failure into existence. The AVOID section is **one readable line, hard-capped at ~12 items.** Core first, then only the conditionals the scene actually risks.
 
-## Tier 1 — Universal (every prompt, every type)
+## Core (always, verbatim — never trimmed)
 
-> no garbled or legible signage text, no readable posters or screens, no third-party logos or brand marks, no on-screen text or UI or captions, no watermark, no oversaturation, no glossy plasticky CGI, no CGI glow on real devices
+> no on-screen text or UI, no watermark, no oversaturation, no glossy CGI, no over-sharpened digital look, no halo or edge outline around people, no overacting or stiff posing, no cloned background people
 
-## Tier 2 — De-creep (every prompt containing a person or a device)
+## Conditionals (add ONLY when the scene invokes the risk — pick max 3–4)
 
-> no facial mesh or wireframe on the face, no cyan or green tech-HUD overlays, no extreme eye close-ups, no dot-grid scan animations, no red reticles or target-locks on the face, no cold clinical lab settings, no surveillance or "system watching you" POV
+| Scene condition | Add |
+|-----------------|-----|
+| Technology near a face (payments, scanners, devices) | no facial mesh or scan overlays, no reticles or HUD on faces |
+| Visible signage / posters / screens | no garbled signage, no third-party logos |
+| Snow in frame | no pure-white or warm-toned snow |
+| Keyable / green-screen asset | no green spill on subject, no edge motion blur |
+| Graphic register (types 3/4/6) | no rainbow gradients, no crypto clichés |
 
-## Tier 3 — Style-conditional (add when the type applies)
+## Project extras (bible §7)
 
-| Condition | Add |
-|-----------|-----|
-| Filmed/narrative types (documentary, commercial, snow) | no music, no score, no slow-motion glamour, no forced smiles, no uncanny faces |
-| Crowd or group in shot | each background character described distinctly — vague group descriptions collapse into sameness |
-| Snow & nature | no cartoonish or fake snow, no warm tones |
-| Motion-graphic / keyable assets | no green spill on subject, no cast shadows into the key, no heavy motion blur, no logo distortion |
-| Graphic register (abstract / avalanche-mg) | no rainbow gradients, no neon-purple crypto cliché, no gold coins, no chaotic noise |
-
-## Tier 4 — Project extras (per-project slot)
-
-Lives in the project's continuity bible under **Extra negatives**. Anything the project teaches you goes here immediately — e.g. from the NEC film: "no wedding dresses in street scenes", "only the bride wears a sash". Once added, it ships in every subsequent prompt for that project automatically.
+Project-specific negatives (e.g. "no wedding dresses in street scenes") count toward the cap. If the line exceeds ~12 items, cut conditionals first — the core eight always survive.
 
 ## Assembly rule
 
-AVOID = Tier 1 + Tier 2 (if person/device) + matching Tier 3 rows + Tier 4, deduplicated, as one comma-separated paragraph. Paste verbatim — never paraphrase or trim.
+AVOID = core + matching conditionals + project extras, deduplicated, one comma-separated line. Paste verbatim; never paraphrase. Before adding any item, ask whether the positive prompt (action, staging, look) can carry it instead — describing what you WANT beats listing what you fear.

@@ -45,3 +45,14 @@ No prompt composition (Phase 6) starts until every mapped element is locked, reg
 | `higgsfield_preset` | Requires exactly one image — the reference still. |
 
 Record the chosen routing per generation in the brief sheet so the prompt's FORMAT line and the submit call always agree.
+
+## Step 6 — Continuity across generations: frame-pull, never video-chaining
+
+**Hard rule: never feed a generated video back into the next generation as a video reference.** Chaining generations compounds artifacts — each hop inherits the last one's noise and quality degrades in a feedback loop.
+
+- **Identity continuity** comes from the SAME original locked reference stills (the registered elements), attached fresh to every generation. G5 uses the identical @woman element that G1 used — never "the @woman from G4's output."
+- **Compositional continuity** (G2 must open where G1 ended — same position, same light) uses a **frame pull**:
+  1. The G1 video is already downloaded in `generations/` (Phase 8). Extract the exact frame locally with ffmpeg — e.g. last frame: `ffmpeg -sseof -0.1 -i G1.mp4 -frames:v 1 out.png`, or a chosen timestamp: `ffmpeg -ss 00:00:07.5 -i G1.mp4 -frames:v 1 out.png`. Offer the editor 2–3 candidate frames around the target moment and let them pick.
+  2. Save the chosen frame to `references/` as `@scene_G1-frame-{t}s.png`.
+  3. Upload it (`media_upload` → `media_confirm`) and attach it to the next generation as **`start_image` only** — never as an identity/image reference and never register it as an element.
+- A pulled frame anchors ONE generation and is then retired. If its quality is already compromised, fix G1 first instead of propagating it.

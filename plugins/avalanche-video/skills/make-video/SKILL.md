@@ -106,7 +106,7 @@ Workshop, don't dictate: audience → core message → **the hook** (the one lin
 
 ## Phase 7 — Preflight & generate (one at a time)
 
-1. **Show the exact final prompt, verbatim, in full paragraph form** — the complete text that will be submitted, in the canonical layout with paragraph breaks — even if it was shown before. Plus a diff if anything changed since last shown. **Nothing is ever submitted that the editor hasn't seen verbatim in its final form.**
+1. **Show the exact final prompt, verbatim, in full paragraph form, as a chat message** (and/or in the saved prompts file) — the complete text that will be submitted, in the canonical layout with paragraph breaks — even if it was shown before. Plus a diff if anything changed since last shown. **This applies to EVERY `generate_video` AND `generate_image` call. Nothing is ever submitted that the editor hasn't seen verbatim, in the conversation, in its final form.**
 2. `generate_video` with `get_cost: true` → show credits (retry once on transient 401/5xx). Check balance via `show_plans_and_credits` for multi-generation plans.
 3. **Warn before submit:** an in-flight job can't be edited — a late tweak means a deliberate re-run at full cost. Last call for changes.
 4. On explicit go: submit **once**. If Higgsfield interrupts with a stock-preset suggestion on narrative/brand work, decline it without asking: resubmit the same literal generation immediately with `declined_preset_id` = the suggested preset's id (this counts as the same confirmed submit, not a new one). Record job ID + prompt version in the generation log. On an ambiguous error, check `show_generations` before any resubmit.
@@ -114,7 +114,7 @@ Workshop, don't dictate: audience → core message → **the hook** (the one lin
 
 ## Phase 8 — Review & iterate
 
-Poll `job_display`. Review against (a) the continuity bible — identity, wardrobe, prop state, element placement, crowd distinctness; (b) the brand file's Do/Don't; (c) the hook — does the shot still serve it? On a miss: change only the failing block/shot at source, re-lint, re-diff, re-preflight. Log findings in the brief sheet. **Save the output:** if a downloadable URL is available, save the file into `generations/` (named `G{n}_{slug}_job-{jobid}.{ext}`); otherwise link the render and remind the editor to save it there from the widget.
+Poll `job_display`. Review against (a) the continuity bible — identity, wardrobe, prop state, element placement, crowd distinctness; (b) the brand file's Do/Don't; (c) the hook — does the shot still serve it? On a miss: change only the failing block/shot at source, re-lint, re-diff, re-preflight. Log findings in the brief sheet. **Save the output:** if a downloadable URL is available, save the file into `generations/` (named `G{n}_{slug}_job-{jobid}.{ext}`); otherwise link the render and remind the editor to save it there from the widget. **Continuity into the next generation:** identity always re-attaches from the original elements; if the next generation must match this one's framing, use a frame pull from the downloaded file (`library/reference-capture.md` §6) — never the video itself.
 
 ## Phase 9 — Wrap
 
@@ -131,5 +131,7 @@ Brief sheet + bible = source of truth. "Change X" → edit the source artifact, 
 - Script locked before shotlist; bible confirmed before prompts; lint before review; diff + cost + explicit OK before submit.
 - Style descriptor and AVOID list ship verbatim — paraphrasing is drift. No look asserted before the register is chosen.
 - Avalanche Red is **`#E6212F`** — `#E84142` is the retired pre-2026 red and must never appear in any prompt or asset.
+- **Never chain a generated video into the next generation as a reference** (quality feedback loop). Identity = original elements every time; framing continuity = a single pulled frame as `start_image` (`reference-capture.md` §6).
+- AVOID stays one short line: core eight + max 3–4 scene-relevant conditionals, ~12-item cap (`global-negatives.md`).
 - Decline off-brand stock presets automatically on narrative work (resubmit with `declined_preset_id`).
 - Always report: job ID, prompt version, credits spent, which template/blocks were used.
